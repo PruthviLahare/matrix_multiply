@@ -14,13 +14,14 @@ const transposeMatrix = function (transposed, matrix) {
       return transposed;
     });
   });
+
   return transposed;
 };
 
 const multiply = function (matrixb) {
   return function (element) {
     return matrixb.map((num) => {
-      return num.map((ele, index) => ele * element[index]);
+      return num.map((value, index) => value * element[index]);
     });
   };
 };
@@ -38,11 +39,11 @@ export const multiplyMatrices = function (matrixA, matrixB) {
     return [];
   }
 
-  const wrappedFirstRow = wrapFirstRowElements(matrixB[0]);
+  const initialTranspose = wrapFirstRowElements(matrixB[0]);
   const remainingRows = structuredClone(matrixB);
   remainingRows.shift();
 
-  const transposedMatrixB = transposeMatrix(wrappedFirstRow, remainingRows);
+  const transposedMatrixB = transposeMatrix(initialTranspose, remainingRows);
 
   return matrixA.map(multiply(transposedMatrixB)).map(sumRows);
 };
